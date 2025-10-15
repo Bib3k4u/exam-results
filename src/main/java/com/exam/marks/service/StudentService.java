@@ -12,14 +12,23 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
-    public Student register(Student s){
-       return studentRepository.save(s);
+    public Student register(Student student) {
+        return studentRepository.save(student);
     }
-    public List<Student> getAllStudents(){
+
+    public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
+    public Student findByEmail(String email) {
+        return studentRepository.findByEmail(email).orElse(null);
+    }
+
+    public boolean existsByEmail(String email) {
+        return studentRepository.existsByEmail(email);
+    }
+
+    public Student findById(String id) {
+        return studentRepository.findById(id).orElse(null);
+    }
 }

@@ -1,43 +1,28 @@
-package com.exam.marks.model;
+package com.exam.marks.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import com.exam.marks.model.Marks;
 
-@Document(collection = "marks")
-public class Marks {
-    @Id
+public class MarksResponse {
     private String id;
-
-    @DBRef(lazy = true)
-    private Student student;
-
-    @Field("tr1")
+    private StudentResponse student;
     private Float tr1;
-
-    @Field("tr2")
     private Float tr2;
-
-    @Field("tr3")
     private Float tr3;
-
-    @Field("total")
     private Float total;
-
-    @Field("selected")
     private Boolean selected;
-
-    @Field("rank")
     private Integer rank;
 
-    public void calculateTotal() {
-        float t = (tr1 == null ? 0 : tr1)
-                + (tr2 == null ? 0 : tr2)
-                + (tr3 == null ? 0 : tr3);
-        this.total = t;
-        double avg = t / 3.0;
-        this.selected = avg > 35.0;
+    public static MarksResponse fromMarks(Marks marks) {
+        MarksResponse response = new MarksResponse();
+        response.setId(marks.getId());
+        response.setStudent(StudentResponse.fromStudent(marks.getStudent()));
+        response.setTr1(marks.getTr1());
+        response.setTr2(marks.getTr2());
+        response.setTr3(marks.getTr3());
+        response.setTotal(marks.getTotal());
+        response.setSelected(marks.getSelected());
+        response.setRank(marks.getRank());
+        return response;
     }
 
     public String getId() {
@@ -48,11 +33,11 @@ public class Marks {
         this.id = id;
     }
 
-    public Student getStudent() {
+    public StudentResponse getStudent() {
         return student;
     }
 
-    public void setStudent(Student student) {
+    public void setStudent(StudentResponse student) {
         this.student = student;
     }
 
@@ -103,5 +88,4 @@ public class Marks {
     public void setRank(Integer rank) {
         this.rank = rank;
     }
-
 }
