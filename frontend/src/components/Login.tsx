@@ -35,7 +35,7 @@ const Login = ({ onLogin, onSwitchToSignup }: any) => {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-purple-500"
             required
           />
           <input
@@ -43,7 +43,7 @@ const Login = ({ onLogin, onSwitchToSignup }: any) => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-purple-500"
             required
           />
           <button

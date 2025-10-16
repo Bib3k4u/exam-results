@@ -2,10 +2,13 @@ import { useState } from "react";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
+import DashboardTable from "./components/DashboardTable";
 import "./App.css";
 
 function App() {
-  const [page, setPage] = useState<"signup" | "login" | "dashboard">("signup");
+  const [page, setPage] = useState<
+    "signup" | "login" | "dashboard" | "dashboardTable"
+  >("signup");
   const [student, setStudent] = useState<any>(null);
 
   return (
@@ -15,7 +18,7 @@ function App() {
           onSwitchToLogin={() => setPage("login")}
           onSignup={(user: any) => {
             setStudent(user);
-            setPage("dashboard");
+            setPage("dashboardTable");
           }}
         />
       )}
@@ -23,7 +26,7 @@ function App() {
         <Login
           onLogin={(user: any) => {
             setStudent(user);
-            setPage("dashboard");
+            setPage("dashboardTable");
           }}
           onSwitchToSignup={() => setPage("signup")}
         />
@@ -31,6 +34,15 @@ function App() {
       {page === "dashboard" && (
         <Dashboard
           student={student}
+          onLogout={() => {
+            setStudent(null);
+            setPage("login");
+          }}
+        />
+      )}
+      {page === "dashboardTable" && (
+        <DashboardTable
+          currentStudent={student}
           onLogout={() => {
             setStudent(null);
             setPage("login");

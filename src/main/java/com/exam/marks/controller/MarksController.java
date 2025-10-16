@@ -1,5 +1,6 @@
 package com.exam.marks.controller;
 
+import com.exam.marks.dto.DashboardStudentResponse;
 import com.exam.marks.dto.MarksResponse;
 import com.exam.marks.model.Marks;
 import com.exam.marks.model.Student;
@@ -137,5 +138,59 @@ public class MarksController {
         return marksService.getAllMarksWithRank().stream()
                 .map(MarksResponse::fromMarks)
                 .toList();
+    }
+
+    @GetMapping("/dashboard")
+    public List<DashboardStudentResponse> getDashboardData() {
+        return marksService.getAllStudentsWithMarksAndRanks().stream()
+                .filter(marks -> marks.getStudent() != null) // Only include marks with valid student references
+                .map(marks -> DashboardStudentResponse.fromMarksAndStudent(marks, marks.getStudent()))
+                .toList();
+    }
+
+    @PutMapping("/student/{studentId}/edit")
+    public ResponseEntity<?> updateStudentMarks(@PathVariable String studentId,
+            @RequestBody Map<String, Object> marksData) {
+        try {
+            // Verify the student exists
+            Student student = studentService.findById(studentId);
+            if (student == null) {
+                return ResponseEntity.badRequest().body("Student not found");
+            }
+
+            Marks existingMarks = marksService.findByStudentId(studentId);
+            if (existingMarks == null) {
+                return ResponseEntity.badRequest().body("No marks found for this student");
+            }
+
+            // Update marks
+            if (marksData.containsKey("tr1")) {
+                Float tr1 = convertToFloat(marksData.get("tr1"));
+                if (tr1 != null) {
+                    existingMarks.setTr1(tr1);
+                }
+            }
+            if (marksData.containsKey("tr2")) {
+                Float tr2 = convertToFloat(marksData.get("tr2"));
+                if (tr2 != null) {
+                    existingMarks.setTr2(tr2);
+                }
+            }
+            if (marksData.containsKey("tr3")) {
+                Float tr3 = convertToFloat(marksData.get("tr3"));
+                if (tr3 != null) {
+                    existingMarks.setTr3(tr3);
+                }
+            }
+
+            // Recalculate total and update ranks
+            existingMarks.calculateTotal();
+            Marks savedMarks = marksService.saveMarks(existingMarks);
+            marksService.updateAllRanks();
+
+            return ResponseEntity.ok(DashboardStudentResponse.fromMarksAndStudent(savedMarks, student));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error updating marks: " + e.getMessage());
+        }
     }
 }

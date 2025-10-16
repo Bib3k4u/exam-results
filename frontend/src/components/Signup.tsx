@@ -41,7 +41,7 @@ const Signup = ({ onSwitchToLogin, onSignup }: SignupProps) => {
             placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
             required
           />
           <input
@@ -49,7 +49,7 @@ const Signup = ({ onSwitchToLogin, onSignup }: SignupProps) => {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
             required
           />
           <input
@@ -57,7 +57,7 @@ const Signup = ({ onSwitchToLogin, onSignup }: SignupProps) => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
             required
           />
           <button
